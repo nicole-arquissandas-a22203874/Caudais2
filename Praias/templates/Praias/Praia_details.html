@@ -1,0 +1,22 @@
+{% extends 'Praias/layout.html' %}
+
+{% block content %}
+    <h3>{{ praia.nome }},{{praia.regiao.nome}}</h3>
+     {% if praia.imagem %}
+        <img src='{{ praia.imagem.url}}' width="300px">
+     {% else %}
+        <p>No image available</p>
+     {% endif %}
+
+
+    <p>Serviços:</p>
+    <ul>
+    {% for servico in praia.servicos.all %}
+        <li>
+            <p>{{servico.titulo}}</p>
+        </li>
+    {% endfor %}
+    </ul>
+<a href="{% url 'Praias:praias' %}">Lista de praias</a>
+
+{% endblock %}

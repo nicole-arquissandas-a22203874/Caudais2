@@ -1,0 +1,147 @@
+{% extends 'curso/layout.html' %}
+{% block style %}
+
+
+.curso-container {
+    max-width: 800px;
+    margin: 3em auto;
+    background: white;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.curso-container h1 {
+    text-align: center;
+    font-size: 2em;
+    color: #4A4A4A;
+    margin-bottom: 1em;
+}
+
+.curso-section {
+    margin-bottom: 2em;
+}
+
+.curso-section h2 {
+    font-size: 1.5em;
+    color: #4A4A4A;
+
+}
+
+.areas-cientificas-list, .disciplinas-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.area-cientifica {
+    margin-bottom: 1em;
+}
+
+.area-cientifica h3 {
+    margin: 0;
+    font-size: 1.2em;
+    margin-top:3%;
+    padding-right:2%;
+}
+
+.disciplinas-list {
+    margin-top: 0.5em;
+    padding-left: 1em;
+}
+
+.disciplina a {
+    color: #006699;
+    text-decoration: none;
+    font-size: 1em;
+    display:inline-flex;
+    margin-top:3%
+}
+
+
+
+.curso-container p {
+    margin: 0.5em 0;
+    line-height: 1.6;
+}
+
+ul li a:hover ,
+ul li a h3:hover
+{
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+ul li a:active ,
+ul li a h3:active{
+ background-color: #e6e6e6; /* Dark gray on click */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.link {
+    color: #006699; /* Cor azul que combina */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center; /* Alinhar ícone e texto verticalmente */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    margin-top: 1em; /* Espaçamento superior */
+}
+
+.link:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave no hover */
+}
+
+.link:active {
+    background-color: #e6e6e6; /* Cor mais escura ao clicar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+{% endblock %}
+
+
+{% block content %}
+<div class="curso-container">
+    <h1>{{ curso.nome }}</h1>
+
+    <section class="curso-section">
+        <h2 class="curso-title">Apresentação</h2>
+        <p>{{ curso.apresentacao }}</p>
+    </section>
+
+    <section class="curso-section">
+        <h2 class="curso-title">Objetivos</h2>
+        <p>{{ curso.objetivos }}</p>
+    </section>
+
+    <section class="curso-section">
+        <h2 class="curso-title">Competências</h2>
+        <p>{{ curso.competencias }}</p>
+    </section>
+
+    <section class="curso-section">
+        <h2 class="curso-title">Áreas Científicas</h2>
+        <ul class="areas-cientificas-list">
+            {% for area in areas %}
+            <li class="area-cientifica">
+                <a href="{% url 'curso:edita_areaCientifica' area.id %}" >
+                    <h3>{{ area.nome }}</h3>
+                </a>
+                <ul class="disciplinas-list">
+                    {% for disciplina in area.disciplinas.all %}
+                    <li class="disciplina">
+                        <a href="{% url 'curso:disciplina' disciplina.id %}">{{ disciplina.nome }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+
+
+    </section>
+    <a href="{% url 'curso:nova_areaCientifica' curso.id %}" class="link">
+        <i class="fas fa-plus-circle"></i>
+        Nova Área Científica
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'curso/layout.html' %}
+
+{% block style %}
+
+ li a:hover{
+    text-decoration:underline;
+}
+
+ li a:active {
+    color: #e0e0e0;
+}
+#content{
+text-align:center;
+}
+      ul li{
+margin-right:3vw;
+
+
+}
+
+@media (max-width: 768px) {
+           ul li{
+margin-right:13vw;
+
+
+}
+        }
+{% endblock %}
+{% block content %}
+     <div id='content'>
+    <h1>Cursos:</h1>
+    <ul>
+        {% for curso in cursos %}
+            <li><a href="{% url 'curso:cursoDetail' curso.id %}">{{ curso.nome }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+

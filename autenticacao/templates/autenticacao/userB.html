@@ -1,0 +1,21 @@
+{% extends 'bandas/layout.html' %}
+{% block style %}
+
+
+ul{
+list-style-type:none;
+
+
+}
+{% endblock %}
+{% block content %}
+    <div>
+    <h3>Bemvido, {{request.user.first_name}} {{request.user.last_name}}</h3>
+
+    <ul>
+      <li>Username: {{request.user.username}}</li>
+      <li>Email: {{request.user.email}}</li>
+    </ul>
+   </div>
+
+{% endblock %}

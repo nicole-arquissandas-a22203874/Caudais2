@@ -1,0 +1,22 @@
+{% extends 'artigos/layout.html' %}
+
+{% block content %}
+    <h3>Edita Rating</h3>
+
+    <form action="{% url 'artigos:edita_rating' rating.id %}" method="post" enctype='multipart/form-data'>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Guardar">
+    </form>
+
+    <a href="{% url 'artigos:ratings' rating.artigo.id %}">
+      <button>Cancelar</button>
+    </a>
+
+    <a href="{% url 'artigos:apagar_rating' rating.id %}">
+      <button>Apagar</button>
+    </a>
+
+
+
+{% endblock %}

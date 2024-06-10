@@ -1,0 +1,14 @@
+{% extends 'bandas/layout.html' %}
+
+ {% block additional_links %}
+ <a href="{% url 'bandas:banda_detail' banda_id %}">Voltar atrás</a>
+  {% endblock %}
+
+{% block content %}
+    <h2>Cria novo album</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

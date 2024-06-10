@@ -1,0 +1,46 @@
+{% extends 'portfolio/layout.html' %}
+
+
+{% block style %}
+<style>
+    .videos-container {
+        margin: 2% 5%;
+    }
+    .video-wrapper {
+        margin-bottom: 2em;
+    }
+    video {
+        width: 60%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .Presentation{
+        color:#ffd700;
+        text-decoration:underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="sobre-container">
+    <h1>Sobre</h1>
+    <p>Welcome to this "TechTools", here you can know more about my work.</p>
+
+    <div class="videos-container">
+        <div class="video-wrapper">
+            <h3>Django Hands-on</h3>
+            <video controls>
+                <source src="https://nicolearq.pythonanywhere.com/media/portfolio/videos/django-hands-on.mp4" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+        </div>
+
+        <div class="video-wrapper">
+            <h3>Presentation of my applications</h3>
+               <a href="https://we.tl/t-ym8MGsQNN6" class='Presentation'>Check my presentation</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

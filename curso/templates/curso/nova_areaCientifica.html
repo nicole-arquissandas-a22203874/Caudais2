@@ -1,0 +1,34 @@
+{% extends 'curso/layout.html' %}
+
+{% block style %}
+/* Adicione estilos para centralizar o conteúdo */
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.button-container {
+    display: flex;
+    gap: 1em; /* Espaçamento entre os botões */
+}
+
+.button-container button {
+    flex: 1; /* Os botões irão ocupar a mesma largura */
+}
+{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h2>Criar nova área científica</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <div class="button-container">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+            <a href="{% url 'curso:cursoDetail' curso_id %}" class="cancel-button"><button>Cancelar</button></a>
+        </div>
+    </form>
+</div>
+{% endblock %}

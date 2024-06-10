@@ -1,0 +1,65 @@
+{% extends 'artigos/layout.html' %}
+
+{% block style %}
+.follower-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.follower-list h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.follower-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.follower-list li {
+    margin-bottom: 15px;
+}
+
+.follower-list li a {
+    color: #1c7ed6; /* Soft blue */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.follower-list li a:hover {
+    color: #1565c0; /* Darker blue on hover */
+}
+
+@media (max-width: 768px) {
+    .follower-list {
+        padding: 10px;
+    }
+
+    .follower-list h3 {
+        font-size: 24px;
+    }
+
+    .follower-list li a {
+        font-size: 16px;
+    }
+}
+{% endblock %}
+
+{% block content %}
+<div class="follower-list">
+    <h3>Followers</h3>
+    <ul>
+        {% for follower in followers %}
+        <li>
+            <h2><a href="{% url 'artigos:user' follower.username %}">{{ follower.username }}</a></h2>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

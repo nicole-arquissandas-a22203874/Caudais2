@@ -1,0 +1,83 @@
+{% extends 'artigos/layout.html' %}
+
+{% block style %}
+.user-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    height:85vh;
+}
+
+.user-profile h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.user-profile p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.user-profile a {
+    display: inline-block;
+    color: #1c7ed6; /* Soft blue */
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.user-profile a:hover {
+    color: #1565c0; /* Darker blue on hover */
+}
+
+@media (max-width: 768px) {
+    .user-profile {
+        padding: 10px;
+        margin:20px;
+        
+    }
+
+    .user-profile h2 {
+        font-size: 24px;
+    }
+
+    .user-profile p {
+        font-size: 14px;
+    }
+
+    .user-profile a {
+        font-size: 14px;
+    }
+}
+{% endblock %}
+
+{% block content %}
+<div class="user-profile">
+    <h2>{{ usuario.first_name }} {{ usuario.last_name }}</h2>
+
+    {% if is_autor %}
+        {% if has_followers %}
+            <a href="{% url 'artigos:followers' autor_id %}">My Followers</a>
+        {% else %}
+            <a href="{% url 'artigos:Nofollowers' %}">My Followers</a>
+        {% endif %}
+    {% else %}
+        <a href="{% url 'artigos:Nofollowers' %}">My Followers</a>
+    {% endif %}
+
+    <p>Username: {{ usuario.username }}</p>
+
+    {% if is_autor %}
+        <p>Idade: {{ autor.idade }}</p>
+        <p>Bio: {{ bio }}</p>
+    {% else %}
+        <p>Idade: Not available</p>
+        <p>Bio: {{ bio }}</p>
+    {% endif %}
+</div>
+{% endblock %}

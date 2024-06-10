@@ -1,0 +1,182 @@
+[
+  {
+    "titulo": "A Night at the Opera",
+    "ano_lancamento": 1975,
+    "banda": "Queen",
+    "musicas": [
+      {"titulo": "Bohemian Rhapsody", "duracao": "6:07"},
+      {"titulo": "Love of My Life", "duracao": "3:38"}
+    ]
+  },
+  {
+    "titulo": "Californication",
+    "ano_lancamento": 1999,
+    "banda": "Red Hot Chili Peppers",
+    "musicas": [
+      {"titulo": "Scar Tissue", "duracao": "3:37"},
+      {"titulo": "Otherside", "duracao": "4:15"}
+    ]
+  },
+  {
+    "titulo": "Abbey Road",
+    "ano_lancamento": 1969,
+    "banda": "The Beatles",
+    "musicas": [
+      {"titulo": "Come Together", "duracao": "4:20"},
+      {"titulo": "Here Comes the Sun", "duracao": "3:05"}
+    ]
+  },
+  {
+    "titulo": "Led Zeppelin IV",
+    "ano_lancamento": 1971,
+    "banda": "Led Zeppelin",
+    "musicas": [
+      {"titulo": "Stairway to Heaven", "duracao": "8:02"},
+      {"titulo": "Black Dog", "duracao": "4:55"}
+    ]
+  },
+  {
+    "titulo": "Nevermind",
+    "ano_lancamento": 1991,
+    "banda": "Nirvana",
+    "musicas": [
+      {"titulo": "Smells Like Teen Spirit", "duracao": "5:01"},
+      {"titulo": "Come as You Are", "duracao": "3:38"}
+    ]
+  },
+  {
+    "titulo": "Sticky Fingers",
+    "ano_lancamento": 1971,
+    "banda": "The Rolling Stones",
+    "musicas": [
+      {"titulo": "Brown Sugar", "duracao": "3:49"},
+      {"titulo": "Wild Horses", "duracao": "5:41"}
+    ]
+  },
+  {
+    "titulo": "The Dark Side of the Moon",
+    "ano_lancamento": 1973,
+    "banda": "Pink Floyd",
+    "musicas": [
+      {"titulo": "Money", "duracao": "6:22"},
+      {"titulo": "Time", "duracao": "6:53"}
+    ]
+  },
+  {
+    "titulo": "Back in Black",
+    "ano_lancamento": 1980,
+    "banda": "AC/DC",
+    "musicas": [
+      {"titulo": "Back in Black", "duracao": "4:15"},
+      {"titulo": "You Shook Me All Night Long", "duracao": "3:30"}
+    ]
+  },
+  {
+    "titulo": "Master of Puppets",
+    "ano_lancamento": 1986,
+    "banda": "Metallica",
+    "musicas": [
+      {"titulo": "Battery", "duracao": "5:12"},
+      {"titulo": "Master of Puppets", "duracao": "8:36"}
+    ]
+  },
+  {
+    "titulo": "The Doors",
+    "ano_lancamento": 1967,
+    "banda": "The Doors",
+    "musicas": [
+      {"titulo": "Light My Fire", "duracao": "7:06"},
+      {"titulo": "Break on Through (To the Other Side)", "duracao": "2:29"}
+    ]
+  },
+  {
+    "titulo": "Innuendo",
+    "ano_lancamento": 1991,
+    "banda": "Queen",
+    "musicas": [
+      {"titulo": "Innuendo", "duracao": "6:30"},
+      {"titulo": "I'm Going Slightly Mad", "duracao": "4:22"}
+    ]
+  },
+  {
+    "titulo": "Blood Sugar Sex Magik",
+    "ano_lancamento": 1991,
+    "banda": "Red Hot Chili Peppers",
+    "musicas": [
+      {"titulo": "Give It Away", "duracao": "4:43"},
+      {"titulo": "Under the Bridge", "duracao": "4:24"}
+    ]
+  },
+  {
+    "titulo": "Rubber Soul",
+    "ano_lancamento": 1965,
+    "banda": "The Beatles",
+    "musicas": [
+      {"titulo": "Drive My Car", "duracao": "2:30"},
+      {"titulo": "Norwegian Wood (This Bird Has Flown)", "duracao": "2:01"}
+    ]
+  },
+  {
+    "titulo": "Physical Graffiti",
+    "ano_lancamento": 1975,
+    "banda": "Led Zeppelin",
+    "musicas": [
+      {"titulo": "Kashmir", "duracao": "8:28"},
+      {"titulo": "Trampled Under Foot", "duracao": "5:37"}
+    ]
+  },
+  {
+    "titulo": "MTV Unplugged in New York",
+    "ano_lancamento": 1994,
+    "banda": "Nirvana",
+    "musicas": [
+      {"titulo": "About a Girl", "duracao": "3:37"},
+      {"titulo": "The Man Who Sold the World", "duracao": "3:47"}
+    ]
+  },
+  {
+    "titulo": "Let It Bleed",
+    "ano_lancamento": 1969,
+    "banda": "The Rolling Stones",
+    "musicas": [
+      {"titulo": "Gimme Shelter", "duracao": "4:31"},
+      {"titulo": "You Can't Always Get What You Want", "duracao": "7:28"}
+    ]
+  },
+  {
+    "titulo": "Wish You Were Here",
+    "ano_lancamento": 1975,
+    "banda": "Pink Floyd",
+    "musicas": [
+      {"titulo": "Shine On You Crazy Diamond (Parts I–V)", "duracao": "13:32"},
+      {"titulo": "Wish You Were Here", "duracao": "5:34"}
+    ]
+  },
+  {
+    "titulo": "Highway to Hell",
+    "ano_lancamento": 1979,
+    "banda": "AC/DC",
+    "musicas": [
+      {"titulo": "Highway to Hell", "duracao": "3:28"},
+      {"titulo": "Shot Down in Flames", "duracao": "3:22"}
+    ]
+  },
+  {
+    "titulo": "...And Justice for All",
+    "ano_lancamento": 1988,
+    "banda": "Metallica",
+    "musicas": [
+      {"titulo": "One", "duracao": "7:26"},
+      {"titulo": "Blackened", "duracao": "6:40"}
+    ]
+  },
+  {
+    "titulo": "L.A. Woman",
+    "ano_lancamento": 1971,
+    "banda": "The Doors",
+    "musicas": [
+      {"titulo": "Riders on the Storm", "duracao": "7:15"},
+      {"titulo": "Love Her Madly", "duracao": "3:20"}
+    ]
+  }
+]

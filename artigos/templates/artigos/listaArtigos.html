@@ -1,0 +1,99 @@
+{% extends 'artigos/layout.html' %}
+{% block style %}
+.article-list {
+    max-width: 800px;
+    margin: 0 10vw;
+    padding: 20px;
+
+}
+.article {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+.articles {
+    list-style: none;
+    padding: 0;
+}
+.article-title a {
+    color: #1c7ed6; /* Soft blue */
+    text-decoration: none;
+}
+
+.article-title a:hover {
+    text-decoration: underline;
+}
+
+.article-author a {
+    color: #666;
+    text-decoration: none;
+}
+
+.article-author a:hover {
+    text-decoration: underline;
+}
+
+.new-article-link {
+    color: #1c7ed6; /* Soft blue */
+    text-decoration: none;
+    font-weight: bold;
+
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    color: #1565c0; /* Darker blue on hover */
+}
+a:active {
+color: #0d47a1;
+
+}
+
+
+@media (max-width: 768px) {
+
+ .article-list {
+        max-width:1000px;
+        margin: 0 10 0 0;
+    }
+    .article {
+        padding: 10px;
+        padding-right:0vw;
+    }
+    .article-title a {
+        font-size: 0.83em;
+        padding:14px 14px 14px 0px;
+
+    }
+    .article-author{
+
+    margin:0;
+    }
+    .article-author a {
+        font-size: 0.8em;
+
+    }
+
+}
+
+{% endblock %}
+{% block content %}
+    <div class="article-list">
+        <h2>Artigos:</h2>
+        <ul class="articles">
+            {% for artigo in artigos %}
+                <li class="article">
+                    <h3 class="article-title"><a href="{% url 'artigos:artigoDetails' artigo.id %}">{{ artigo }}</a></h3>
+                    <p class="article-author">Autor: <a href="{% url 'artigos:user' artigo.autor.username %}">{{ artigo.autor.username }}</a></p>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="new-article">
+            <a href="{% url 'artigos:novo_artigo' %}"class='new-article-link'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 440"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+                Novo Artigo</a>
+        </div>
+    </div>
+{% endblock %}

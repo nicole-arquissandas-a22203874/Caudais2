@@ -1,0 +1,63 @@
+{% extends 'curso/layout.html' %}
+
+{% block content %}
+
+<style>
+    .center-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .center-content form {
+        width: 100%;
+        max-width: 400px; /* Adjust as needed */
+        margin-bottom: 20px;
+    }
+
+    .center-content a button {
+        margin: 10px;
+    }
+    .link {
+    color: #006699; /* Cor azul que combina */
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center; /* Alinhar ícone e texto verticalmente */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    margin-top: 1em; /* Espaçamento superior */
+}
+
+.link:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave no hover */
+}
+
+.link:active {
+    background-color: #e6e6e6; /* Cor mais escura ao clicar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+</style>
+
+<div class="center-content">
+    <h1>Edita Area Cientifica: {{ area.nome }}</h1>
+    <form action="{% url 'curso:edita_areaCientifica' area.id %}" method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <a href="{% url 'curso:cursoDetail' curso_id %}">
+        <button>cancelar</button>
+    </a>
+
+    <a href="{% url 'curso:apagar_areaCientifica' area.id %}">
+        <button>Apagar</button>
+    </a>
+    <a href="{% url 'curso:nova_disciplina' area.id %}"class='link'><i class="fas fa-plus-circle"></i>
+        Nova disciplina
+    </a>
+</div>
+
+{% endblock %}
