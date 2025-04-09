@@ -9,13 +9,23 @@ from .forms import BandaForm, AlbumForm, MusicaForm
 
 def listaBandas_view(request):
     bandas=Banda.objects.all()
-    contexto={'bandas':bandas}
+    bandaOrdenada=Banda.objects.order_by('ano_criacao')
+
+    contexto={'bandas':bandaOrdenada}
     return render(request,"bandas/listaBandas.html",contexto)
 
+
+    contexto={'bandas':bandaOrdenada}
+    return render(request,"bandas/listaBandas.html",contexto)
 def banda_view(request,banda_id):
     banda=Banda.objects.get(id=banda_id)
     albums=Album.objects.filter(banda__id=banda_id)
-    contexto={'banda':banda,'albums':albums}
+    nrAlbums=albums.all().count()
+    nrMusicas=0
+    for album in albums:
+       nrMusicas=album.musicas.count()
+
+    contexto={'banda':banda,'albums':albums,'nrMusicas':nrMusicas,'nrAlbums':nrAlbums}
     return render(request,"bandas/banda_details.html",contexto)
 
 def album_view(request,album_id):

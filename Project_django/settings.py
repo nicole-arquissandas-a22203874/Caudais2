@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Praias',
     'autenticacao',
     'portfolio',
+    'caudais',
 
 
 ]

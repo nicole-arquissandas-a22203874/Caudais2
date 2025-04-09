@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de Medições</title>
+</head>
+<body>
+    <h1>Upload de Medições</h1>
+    <a href="{% url 'caudais:dashboard' %}"><button>Ir para Dashboard</button></a>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h2>Informações da Região</h2>
+        {{ regiao_form.as_p }}
+
+        <h2>Informações do Ponto de Medição</h2>
+        {{ ponto_form.as_p }}
+
+        <h2>Upload de Arquivo Excel</h2>
+        {{ arquivo_form.as_p }}
+
+        <button type="submit">Enviar</button>
+    </form>
+
+</body>
+</html>

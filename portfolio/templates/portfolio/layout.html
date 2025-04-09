@@ -118,8 +118,7 @@
     </main>
 
     <script>
-
-        function toggleTheme() {
+function toggleTheme() {
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
             const currentTheme = body.classList.contains('light-mode') ? 'light' : 'dark';
@@ -136,6 +135,7 @@
             // Save the new theme preference in localStorage
             localStorage.setItem('theme', newTheme);
         }
+
 
 
         function loadTheme() {

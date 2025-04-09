@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Medições</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+
+
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .chart-container { margin-bottom: 40px; }
+        table { width: 93%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        th:first-child, th:nth-child(2) {
+    background-color: #ADD8E6; /* Light blue color */
+}
+    </style>
+    {% load custom_filters %}
+</head>
+<body>
+    <h1>Dashboard de Medições</h1>
+
+   <form action="{% url 'caudais:dashboard' %}" method="get">
+        <label for="ponto_medicao">Ponto de Medição:</label>
+        <select name="ponto_medicao" id="ponto_medicao">
+            <option value="">Selecione um Ponto de Medição</option>
+            {% for ponto in pontos_medicao %}
+                <option value="{{ ponto.id }}" {% if ponto.id == selected_ponto_medicao.id %}selected{% endif %}>
+                    {{ ponto.regiao.nome }} - {{ ponto.regiao.localidade }} : P{{ponto.id}}
+                </option>
+            {% endfor %}
+        </select>
+
+ <label for="data_type">Tipo de Dados:</label>
+    <select name="data_type" id="data_type">
+        <option value="raw" {% if data_type == 'raw' %}selected{% endif %}>Não Processados</option>
+        <option value="normalized" {% if data_type == 'normalized' %}selected{% endif %}>Normalizados</option>
+        <option value="reconstruido" {% if data_type == 'reconstruido' %}selected{% endif %}>Reconstruidos</option>
+    </select>
+
+    <button type="submit">Filtrar</button>
+
+        <label for="year">Ano:</label>
+        <select name="year" id="year">
+            {% for year in years %}
+                <option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filtrar</button>
+    </form>
+
+
+    <div class="chart-container">
+        <h2>Medições Anuais</h2>
+        <canvas id="yearlyChart" width="400" height="200"></canvas>
+    </div>
+
+
+
+    <div class="chart-container">
+        <h2>Média Mensal - Ano {{ selected_year }}</h2>
+        <canvas id="monthlyAvgChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>Total Mensal - Ano {{ selected_year }}</h2>
+        <canvas id="monthlyTotalChart" width="400" height="200"></canvas>
+    </div>
+
+
+     {% if data_type == 'raw' %}
+    <div class="chart-container">
+        <h2>Contagem Mensal - Ano {{ selected_year }}</h2>
+        <!-- Table for Contagem Mensal -->
+        <table id="monthlyCountTable">
+            <thead>
+                <tr>
+                    <th>Mês</th>
+                    <th>Contagem</th>
+                </tr>
+            </thead>
+           <tbody>
+           {% for label, count in month_names|zip_lists:month_counts %}
+        <tr>
+            <td>{{ label }}</td>  <!-- Month name (e.g., January) -->
+            <td>{{ count }}</td>  <!-- Count for the month -->
+        </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="2">Nenhuma contagem encontrada para este ano.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    {% endif %}
+    <script>
+        const years = {{ years|safe }};
+        const counts = {{ counts|safe }};
+        const totals = {{ totals|safe }};
+        const avgValues = {{ avg_values|safe }};
+        const monthLabels = {{ month_labels|safe }};
+        const monthCounts = {{ month_counts|safe }};
+        const monthAvg = {{ month_avg|safe }};
+        const monthTotals = {{ month_totals|safe }};
+
+
+
+        // Remove the Contagem dataset from the first chart
+        const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+        const yearlyChart = new Chart(yearlyCtx, {
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Total',
+                        data: totals,
+                        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                        yAxisID: 'y'
+                    },
+                    {
+                        type: 'line',
+                        label: 'Média',
+                        data: avgValues,
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                        fill: false,
+                        tension: 0.3,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        position: 'left',
+                        title: { display: true, text: 'Total' }
+                    },
+                    y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: 'Média' }
+                    }
+                },
+                plugins: {
+                    zoom: {
+                        zoom: {
+                            wheel: { enabled: true },
+                            pinch: { enabled: true },
+                            mode: 'xy'
+                        }
+                    },
+                    title: { display: true, text: 'Medições Anuais' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                hover: { mode: 'nearest', intersect: true }
+            }
+        });
+
+        const monthlyAvgCtx = document.getElementById('monthlyAvgChart').getContext('2d');
+        const monthlyAvgChart = new Chart(monthlyAvgCtx, {
+            type: 'line',
+            data: {
+                labels: monthLabels,
+                datasets: [{
+                    label: 'Média',
+                    data: monthAvg,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true } },
+                plugins: {
+                    zoom: {
+                        zoom: {
+                            wheel: { enabled: true },
+                            pinch: { enabled: true },
+                            mode: 'xy'
+                        }
+                    },
+                    title: { display: true, text: 'Média Mensal' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                hover: { mode: 'nearest', intersect: true }
+            }
+        });
+
+
+       const monthlyTotalCtx = document.getElementById('monthlyTotalChart').getContext('2d');
+const monthlyTotalChart = new Chart(monthlyTotalCtx, {
+    type: 'bar',  // Keep the bar chart for the totals
+    data: {
+        labels: monthLabels,  // Labels for each month
+        datasets: [
+            {
+                label: 'Total',  // Bar chart showing the monthly totals
+                data: monthTotals,
+                backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                yAxisID: 'y',  // Link to the left axis
+            },
+            {
+                label: 'Média',  // Line chart showing the monthly averages
+                data: monthAvg,
+                type: 'line',  // Specify this dataset as a line
+                borderColor: 'rgba(54, 162, 235, 1)',  // Line color
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Line fill color
+                fill: true,
+                tension: 0.3,  // Smooth curves
+                yAxisID: 'y1',  // Link to the right axis
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                position: 'left',
+                title: { display: true, text: 'Total' }
+            },
+            y1: {
+                beginAtZero: true,
+                position: 'right',
+                grid: { drawOnChartArea: false },  // Prevent grid lines from overlapping
+                title: { display: true, text: 'Média' }
+            }
+        },
+        plugins: {
+            zoom: {
+                zoom: {
+                    wheel: { enabled: true },
+                    pinch: { enabled: true },
+                    mode: 'xy'
+                }
+            },
+            title: { display: true, text: 'Total Mensal e Média Mensal' },
+            tooltip: { mode: 'index', intersect: false }
+        },
+        hover: { mode: 'nearest', intersect: true }
+    }
+});
+
+
+
+
+    </script>
+</body>
+</html>

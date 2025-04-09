@@ -30,6 +30,15 @@
     margin-left: 5vw;
     margin-right: 8vw; /* Align with the container margin */
 }
+.favorite{
+  margin-left:86vw;
+
+  color:black;
+  background:#FFD700;
+  padding:7px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 .cima .Bandas {
     font-size: 2em;
@@ -79,6 +88,8 @@ margin-left:7vw;
         Nova banda</a></p>
 </div>
 
+
+
 <ul class="container">
     {% for banda in bandas %}
         <li class="band-item">
@@ -93,4 +104,6 @@ margin-left:7vw;
         </li>
     {% endfor %}
 </ul>
+<div><a href="{% url 'bandas:banda_detail' 33 %}" class='favorite'>Banda Favorita</a></div>
+
 {% endblock %}

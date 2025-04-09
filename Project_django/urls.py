@@ -29,7 +29,7 @@ urlpatterns = [
     path('autenticacao/', include('autenticacao.urls')),
     path('curso/', include('curso.urls')),
     path('', include('portfolio.urls')),
-
+    path('caudais/', include('caudais.urls')),
 
 
 ]
