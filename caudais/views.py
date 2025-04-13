@@ -10,7 +10,8 @@ from .funcoes import normalize
 from rpy2.robjects import pandas2ri
 import rpy2.robjects as robjects
 
-R_SCRIPT_PATH = '/home/nicoleArq/Project_django/caudais/r_scripts/reconstruction_script.R'
+
+R_SCRIPT_PATH = 'C:\Users\nicol\Documents\a22203874-projeto-pw\caudais\r_scripts\reconstruction_script.R'
 
 
 
@@ -137,7 +138,7 @@ def dashboard(request):
             df.set_index('timestamp', inplace=True)
             #tranforma a serie cuma serie continuam de intrevalos fixos 15 minutos,se nao existir valor em alguns dos intrevalos e colocado NaN
             resampled_df = df.resample('15T').asfreq()
-            normalize(resampled_df, 15)  # aplicacao de funcao de normalizacao dos leandro
+            normalize(df,resampled_df, 15)  # aplicacao de funcao de normalizacao dos leandro
 
             ## Query yearly data dos dados normalizados
             yearly_normalized = resampled_df.groupby(resampled_df.index.year).agg(
@@ -191,18 +192,39 @@ def dashboard(request):
 
             # Resample the data to 15-minute intervals (fill NaN for missing intervals)
             resampled_df = df.resample('15T').asfreq()
-            normalize(resampled_df,15)
+            start_date = pd.Timestamp(f"{df.index.min().year}-{df.index.min().month}-01")  # Start from January 1st of the first year
+            end_date = pd.Timestamp(f"{df.index.max().year}-{df.index.max().month}-30 23:45:00")  # End at the last day of the final year
+
+# Step 2: Create a new date range with 15-minute intervals for the entire period
+            full_range = pd.date_range(start=start_date, end=end_date, freq='15T')
+
+# Step 3: Resample and apply frequency (asfreq will generate NaNs for missing intervals)
+            resampled_df = df.resample('15T').asfreq()
 
 
+# Step 5: Reindex the DataFrame to include the full date range, filling missing periods with NaN
+            resampled_df = resampled_df.reindex(full_range)
+            resampled_df.index.name = 'Date'
+            #original,resampled
+            normalize(df,resampled_df, 15)
+            
+            matrix_df = resampled_df.pivot(index='Date', columns='Time', values='valor')
+            # Reset the index to make 'Date' the first column
+            matrix_df.reset_index()
 
-
-            # Call the Tbats function from R to reconstruct the missing values
-            r_time_series_data = robjects.FloatVector(resampled_df['valor'].tolist())
-            reconstructed_r_data = tbats_function(r_time_series_data)
-
-            # Convert the reconstructed data back to a pandas DataFrame
-            reconstructed_values = list(reconstructed_r_data)
-            resampled_df['valor'] = reconstructed_values
+            # Rename the index column to 'Date' and remove any other labels for clarity
+            matrix_df.columns.name = None  # This removes the 'Time' label from the columns
+            matrix_pronta =matrix_df.reset_index()
+            #passa a variavel do python matrixpront para o R environment
+            pandas2ri.activate()
+            robjects.globalenv['matrix_pronta'] = pandas2ri.py2rpy(matrix_pronta)
+             
+             # Call the JQ function from R to reconstruct the missing values
+            JQ_function= robjects.globalenv['JQ.function']
+            recontructedValues=JQ_function()
+            reconstructed_values_list = recontructedValues.tolist()
+            resampled_df['valor']=reconstructed_values_list
+            
 
             # Recalculate yearly statistics
             yearly_reconstructed = resampled_df.groupby(resampled_df.index.year).agg(

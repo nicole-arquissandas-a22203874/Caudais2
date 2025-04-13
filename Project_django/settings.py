@@ -24,8 +24,7 @@ SECRET_KEY = 'django-insecure--6va=&lf5daf+t39(xscvp*$q@c0p&7nceh%=k3^0k69j*dv2w
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = ['nicoleArq.pythonanywhere.com']
+ALLOWED_HOSTS = ['nicoleArq.pythonanywhere.com', '127.0.0.1', '127.0.0.1:8000']
 
 
 # Application definition
@@ -37,14 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bandas',
-    'artigos',
-    'curso',
-    'noobsite',
-    'pwsite',
-    'Praias',
-    'autenticacao',
-    'portfolio',
     'caudais',
 
 
