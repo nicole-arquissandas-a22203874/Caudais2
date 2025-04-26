@@ -1,13 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload de Medições</title>
+    <style>
+        :root {
+            --azul-primario: #0077b6;
+            --azul-claro: #caf0f8;
+            --azul-medio: #90e0ef;
+            --cinza-fundo: #f8f9fa;
+            --cinza-texto: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--cinza-fundo);
+            margin: 0;
+            padding: 20px;
+            color: var(--cinza-texto);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--azul-primario);
+            margin-bottom: 30px;
+        }
+
+        a button {
+            background-color: var(--azul-primario);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        a button:hover {
+            background-color: #023e8a;
+        }
+
+        form {
+            background-color: white;
+            padding: 25px 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 119, 182, 0.1);
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: var(--azul-primario);
+            border-bottom: 2px solid var(--azul-medio);
+            padding-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button[type="submit"] {
+            background-color: var(--azul-medio);
+            color: black;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--azul-claro);
+        }
+    </style>
 </head>
 <body>
+
     <h1>Upload de Medições</h1>
-    <a href="{% url 'caudais:dashboard' %}"><button>Ir para Dashboard</button></a>
+    <div style="text-align: center;">
+        <a href="{% url 'caudais:dashboard' %}">
+            <button>Ir para Dashboard</button>
+        </a>
+    </div>
+
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 

@@ -232,7 +232,7 @@ combine.pred <- function (y, fc, bc) {
 TBATS.reconstruct <- function () {
   forecast.estimates <- forecast.reconstruct ()
   backcast.estimates <- backcast.reconstruct ()
-  combination.estimates <- combine.pred (forecast.estimates, backcast.estimates)
+  combination.estimates <- combine.pred (y.t,forecast.estimates, backcast.estimates)
   combination.estimates
 }
 

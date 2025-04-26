@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Regiao, PontoMedida, Serie, Medicao
+from .models import*
 
 
 
@@ -11,3 +11,11 @@ admin.site.register(Regiao)
 admin.site.register(PontoMedida)
 admin.site.register(Serie)
 admin.site.register(Medicao,MedicaoAdmin)
+admin.site.register(MedicaoProcessada)
+admin.site.register(EstatisticaAnual)
+admin.site.register(EstatisticaMensal)
+
+
+
+
+

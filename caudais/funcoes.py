@@ -4,6 +4,73 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import calendar
 
+from .models import Medicao, MedicaoProcessada,EstatisticaMensal,EstatisticaAnual
+
+def carregar_excel(arquivo_excel, serie):
+    # Read the Excel file into a DataFrame
+    df = pd.read_excel(arquivo_excel)
+
+    # Convert 'Data' column to datetime, invalid dates become NaT (null)
+    df['Data'] = pd.to_datetime(df['Data'], format='%d/%m/%Y %H:%M:%S', errors='coerce')
+
+    # Convert 'Caudal' column to numeric, invalid values become NaN (null)
+    df['Caudal'] = pd.to_numeric(df['Caudal'], errors='coerce')
+
+    # Create Medicao instances from the DataFrame, allowing nulls for invalid data
+    medicoes_to_create = [
+        Medicao(
+            serie=serie,
+            valor=row['Caudal'] if pd.notna(row['Caudal']) else None,  # Replace NaN with None
+            timestamp=row['Data'] if pd.notna(row['Data']) else None   # Replace NaT with None
+        )
+        for _, row in df.iterrows()
+    ]
+
+    # Bulk insert Medicao instances into the database
+    if medicoes_to_create:
+        Medicao.objects.bulk_create(medicoes_to_create, batch_size=7000)
+
+    return 'Medições carregadas com sucesso, incluindo valores nulos para dados inválidos!'
+def guardaProcessados(data, metodo, ponto_medida):
+    to_save = [
+        MedicaoProcessada(
+            ponto_medida=ponto_medida,
+            metodo=metodo,
+            timestamp=pd.to_datetime(ts),
+            valor=val if pd.notnull(val) else None,
+            ano=pd.to_datetime(ts).year
+        )
+        for ts, val in data
+    ]
+    MedicaoProcessada.objects.bulk_create(to_save, ignore_conflicts=True)
+def guardaEstatisticaAnual(data, metodo, ponto_medida):
+    to_save = [
+        EstatisticaAnual(
+            ponto_medida=ponto_medida,
+            metodo=metodo,
+            ano=ano,
+            total=tot if pd.notnull(tot) else 0,
+            contagem=cnt if pd.notnull(cnt) else 0,
+            media=avg if pd.notnull(avg) else 0
+        )
+        for ano, tot, cnt, avg in data
+    ]
+    EstatisticaAnual.objects.bulk_create(to_save, ignore_conflicts=True)
+def guardaEstatisticaMensal(data, metodo, ponto_medida,selected_year):
+    to_save = [
+    EstatisticaMensal(
+        ponto_medida=ponto_medida,
+        metodo=metodo,
+        ano=selected_year,
+        mes=mes,
+        total=tot if pd.notnull(tot) else 0,
+        contagem=cnt if pd.notnull(cnt) else 0,
+        media=avg if pd.notnull(avg) else 0
+    )
+    for mes, tot, cnt, avg in data
+]
+    EstatisticaMensal.objects.bulk_create(to_save, ignore_conflicts=True)
+
 def normalize(original_df,resampled_df, time):
     for col in resampled_df.columns:
 
@@ -11,8 +78,8 @@ def normalize(original_df,resampled_df, time):
 
         for idx, value in resampled_df[col][missing_mask].items():
           idx = pd.Timestamp(idx)
-          before_idx = original_df.loc[:idx, 'Caudal'].last_valid_index()
-          after_idx = original_df.loc[idx:, 'Caudal'].first_valid_index()
+          before_idx = original_df.loc[:idx, col].last_valid_index()
+          after_idx = original_df.loc[idx:, col].first_valid_index()
           if before_idx is not None and after_idx is not None and (after_idx - before_idx).total_seconds() <= pd.Timedelta(minutes=time).total_seconds():
             resampled_df.at[idx, col] = original_df[col][before_idx] + \
                                             ((original_df[col][after_idx] - original_df[col][before_idx]) /
