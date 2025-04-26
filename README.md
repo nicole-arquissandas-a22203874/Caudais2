@@ -31,8 +31,8 @@ Passo a Passo
      python manage.py runserver
      Nota:Na views.py vai ser necessário alterar o caminho do  R script "reconstruction_script.R"
 
-  
-  
+Na Pasta Dados apresentam-se dados de caudal num excell para testar a aplicação
+
 
 
 
